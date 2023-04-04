@@ -1,7 +1,5 @@
 # 1. Introductie
 
----
-
 In dit project  ga je Entity Framework toevoegen aan je MVC app. Entity Framework is een ORM (Object Relational Mapping) framework. ORM frameworks zorgen ervoor dat je niet meer met SQL queries hoeft te werken. Je kan nu gewoon classes gebruiken om data op te slaan in de database.
 
 ## Inhoud
@@ -15,8 +13,6 @@ In dit project  ga je Entity Framework toevoegen aan je MVC app. Entity Framewor
 
 
 # 2. Stappen
-
----
 
 1. Voeg een map genaamd Data toe aan je MVC project
     > In deze map komen alle data gerelateerde bestanden te staan zoals de DbContext en je Data modellen (de classes die je gebruikt om data op te slaan in de database)
@@ -51,8 +47,6 @@ In dit project  ga je Entity Framework toevoegen aan je MVC app. Entity Framewor
 
 
 ## 3. Data modellen maken
-
----
 
 In de map `Models` maak je de classes aan die je gaat gebruiken om data op te slaan in de database. In dit geval heb ik 2 classes gemaakt genaamd [`Blog`](TestVoorToets/Data/Models/Blog.cs) en [`Author`](TestVoorToets/Data/Models/Author.cs). 
 
@@ -120,8 +114,6 @@ De `MaxLength` attribuut zorgt ervoor dat de property die je aan het attribuut k
 
 ## 4. DbContext opstellen en connectie met de database leggen
 
----
-
 #### DbContext opstellen
 
 ---
@@ -169,8 +161,6 @@ Hier wordt de connectie met de database gemaakt. De connectie wordt gemaakt door
 
 
 ## 5. Connectie met de database leggen
-
----
 
 De connection string is een string die alle informatie bevat om de connectie met de database te leggen. De connection string wordt opgeslagen in de [`appsettings.json`](TestVoorToets/appsettings.json) file. De connection string wordt opgeslagen in de `ConnectionStrings` sectie van de `appsettings.json` file. 
 
@@ -223,8 +213,6 @@ Stel dat je gebruik maakt van een andere database, dan moet je de connection str
 ```
 
 ## 6. Database migreren
-
----
 
 Om de database aan te maken moet je een database migratie maken. Dit verschilt voor Windows en Mac gebruikers. Dus hieronder staan de stappen voor Windows en Mac gebruikers.
 
