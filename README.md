@@ -96,20 +96,20 @@ Hieronder leg ik uit hoe de attributen werken:
 
 > `Key`
 
-De `Key` attribuut zorgt ervoor dat de property die je aan het attribuut koppelt de primary key van de tabel wordt. In dit geval is de property `Name` de primary key van de tabel `Author`. (Dit attribuut is alleen nodig als de property niet `Id` heet)
+Het `Key` attribuut zorgt ervoor dat de property die je aan het attribuut koppelt de primary key van de tabel wordt. In dit geval is de property `Name` de primary key van de tabel `Author`. (Dit attribuut is alleen nodig als de property niet `Id` heet)
 
 > `ForeignKey`
 
-De `ForeignKey` attribuut zorgt ervoor dat de property die je aan het attribuut koppelt de foreign key van de tabel wordt. In dit geval is de property `AuthorName` de foreign key van de tabel `Blog`.
+Het `ForeignKey` attribuut zorgt ervoor dat de property die je aan het attribuut koppelt de foreign key van de tabel wordt. In dit geval is de property `AuthorName` de foreign key van de tabel `Blog`.
 Dus als je een blog wilt opslaan in de database moet je de property `AuthorName` invullen met de naam van de author. Hierdoor kan Entity Framework de juiste author vinden in de database.
 
 > `Required`
 
-De `Required` attribuut zorgt ervoor dat de property die je aan het attribuut koppelt verplicht is. In dit geval is de property `Title` verplicht.
+Het `Required` attribuut zorgt ervoor dat de property die je aan het attribuut koppelt verplicht is. In dit geval is de property `Title` verplicht.
 
 > `MaxLength`
 
-De `MaxLength` attribuut zorgt ervoor dat de property die je aan het attribuut koppelt een maximum lengte heeft. In dit geval is de property `Title` maximaal 100 karakters lang.
+Het `MaxLength` attribuut zorgt ervoor dat de property die je aan het attribuut koppelt een maximum lengte heeft. In dit geval is de property `Title` maximaal 100 karakters lang.
 
 
 ## 4. DbContext opstellen en connectie met de database leggen
