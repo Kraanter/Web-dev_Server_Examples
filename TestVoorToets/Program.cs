@@ -1,5 +1,12 @@
+using System.Reflection.Metadata;
+using Microsoft.EntityFrameworkCore;
+using TestVoorToets.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
+var connectionString = builder.Configuration.GetConnectionString("BlogDatabase");
+builder.Services.AddDbContext<BlogDbContext>(options =>
+    options.UseSqlite(connectionString));
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
