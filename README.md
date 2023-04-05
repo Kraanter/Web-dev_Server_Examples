@@ -158,7 +158,7 @@ Hier wordt de connectie met de database gemaakt. De connectie wordt gemaakt door
 
  > De [`Program.cs`](TestVoorToets/Program.cs) haalt eerst de connection string op uit de [`appsettings.json`](TestVoorToets/appsettings.json) file. Deze connection string heeft alle informatie om de connectie met de database te leggen. Hier zit bijvoorbeeld de naam van de database, de gebruikersnaam en het wachtwoord. De connection string wordt opgeslagen in de variable `connectionString`.
  > 
- > Hoe je deze connectie string opstelt is [hier](#5-connection-string-opstellen) uitgelegd.
+ > Hoe je deze connectie string opstelt is [hier](#5-connectie-met-de-database-leggen) uitgelegd.
 
 
 # 5. Connectie met de database leggen
