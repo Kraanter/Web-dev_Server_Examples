@@ -47,7 +47,7 @@ In dit project  ga je Entity Framework toevoegen aan je MVC app. Entity Framewor
 
 
 
-## 3. Data modellen maken
+# 3. Data modellen maken
 
 In de map `Models` maak je de classes aan die je gaat gebruiken om data op te slaan in de database. In dit geval heb ik 2 classes gemaakt genaamd [`Blog`](TestVoorToets/Data/Models/Blog.cs) en [`Author`](TestVoorToets/Data/Models/Author.cs). 
 
@@ -113,7 +113,7 @@ Het `Required` attribuut zorgt ervoor dat de property die je aan het attribuut k
 Het `MaxLength` attribuut zorgt ervoor dat de property die je aan het attribuut koppelt een maximum lengte heeft. In dit geval is de property `Title` maximaal 100 karakters lang.
 
 
-## 4. DbContext opstellen en connectie met de database leggen
+# 4. DbContext opstellen en connectie met de database leggen
 
 #### DbContext opstellen
 
@@ -161,7 +161,7 @@ Hier wordt de connectie met de database gemaakt. De connectie wordt gemaakt door
  > Hoe je deze connectie string opstelt is [hier](#5-connection-string-opstellen) uitgelegd.
 
 
-## 5. Connectie met de database leggen
+# 5. Connectie met de database leggen
 
 De connection string is een string die alle informatie bevat om de connectie met de database te leggen. De connection string wordt opgeslagen in de [`appsettings.json`](TestVoorToets/appsettings.json) file. De connection string wordt opgeslagen in de `ConnectionStrings` sectie van de `appsettings.json` file. 
 
@@ -213,7 +213,7 @@ Stel dat je gebruik maakt van een andere database, dan moet je de connection str
 }
 ```
 
-## 6. Database migreren
+# 6. Database migreren
 
 Om de database aan te maken moet je een database migratie maken. Dit verschilt voor Windows en Mac gebruikers. Dus hieronder staan de stappen voor Windows en Mac gebruikers.
 
@@ -245,7 +245,7 @@ Om de database aan te maken moet je een database migratie maken. Dit verschilt v
  * Als het commando `dotnet ef migrations add Initial` de volgende error geeft: `Unable to create an object of type 'BlogContext'. For the different patterns supported at design time, see https://go.microsoft.com/fwlink/?linkid=851728`, dan moet je ervoor zorgen dat je in de [`Program.cs`](TestVoorToets/Program.cs) de dependency injection gebruikt wordt. En dit moet je doen boven de code die de builder.Build() method aanroept. Zoals te zien is in het [voorbeeld](TestVoorToets/Program.cs).
  * Als het commando `dotnet ef migrations add Inital` de volgende error geeft: `No project was found. Change the current working directory or use the --project option.`, dan moet je ervoor zorgen dat je in de `Terminal` in de folder staat waar de project staat. En als dit niet werkt kan je de extra parameter `--project` gebruiken met daarachter de naam van je project. Bijvoorbeeld: `dotnet ef migrations add Initial --project TestVoorToets`.
 
-## 7. Session state bijhouden
+# 7. Session state bijhouden
 
 Soms wil je op een pagina dingen bijhouden. Bijvoorbeeld als je een formulier hebt met meerdere stappen. Dan wil je op elke stap de ingevulde gegevens bijhouden. Dit kan je doen door de gegevens op te slaan in de `Session`. 
 
