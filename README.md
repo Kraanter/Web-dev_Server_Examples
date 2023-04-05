@@ -10,6 +10,7 @@ In dit project  ga je Entity Framework toevoegen aan je MVC app. Entity Framewor
 4. [DbContext opstellen](#4-dbcontext-opstellen-en-connectie-met-de-database-leggen)
 5. [Connectie met de database leggen](#5-connectie-met-de-database-leggen)
 6. [Database migreren](#6-database-migreren)
+7. [Session state bijhouden](#7-session-state-bijhouden)
 
 
 # 2. Stappen
