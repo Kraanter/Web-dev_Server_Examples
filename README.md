@@ -243,3 +243,58 @@ Om de database aan te maken moet je een database migratie maken. Dit verschilt v
  * Als het commando `dotnet ef migrations add Initial` niet werkt, dan moet je de `Microsoft.EntityFrameworkCore.Tools` NuGet package installeren.
  * Als het commando `dotnet ef migrations add Initial` de volgende error geeft: `Unable to create an object of type 'BlogContext'. For the different patterns supported at design time, see https://go.microsoft.com/fwlink/?linkid=851728`, dan moet je ervoor zorgen dat je in de [`Program.cs`](TestVoorToets/Program.cs) de dependency injection gebruikt wordt. En dit moet je doen boven de code die de builder.Build() method aanroept. Zoals te zien is in het [voorbeeld](TestVoorToets/Program.cs).
  * Als het commando `dotnet ef migrations add Inital` de volgende error geeft: `No project was found. Change the current working directory or use the --project option.`, dan moet je ervoor zorgen dat je in de `Terminal` in de folder staat waar de project staat. En als dit niet werkt kan je de extra parameter `--project` gebruiken met daarachter de naam van je project. Bijvoorbeeld: `dotnet ef migrations add Initial --project TestVoorToets`.
+
+## 7. Session state bijhouden
+
+Soms wil je op een pagina dingen bijhouden. Bijvoorbeeld als je een formulier hebt met meerdere stappen. Dan wil je op elke stap de ingevulde gegevens bijhouden. Dit kan je doen door de gegevens op te slaan in de `Session`. 
+
+Om gebruik te kunnen maken van de `Session` moet je de `Session` service registreren in de [`Program.cs`](TestVoorToets/Program.cs) file. 
+
+```csharp
+// Voeg de sessie service toe
+builder.Services.AddSession();
+
+/// ...
+var app = builder.Build();
+/// ...
+
+// Voeg de sessie middleware toe
+app.UseSession();
+```
+
+Vervolgens kan je de `Session` gebruiken in de controller doormiddel van het `HttpContext` object. Hier is een voorbeeld van hoe je de `Session` kan gebruiken:
+
+```csharp
+public IActionResult Index()
+{
+    // Haal de waarde op van de key "test"
+    var test = HttpContext.Session.GetString("test");
+
+    // Zet de waarde van de key "test" op "Hello World"
+    HttpContext.Session.SetString("test", "Hello World");
+
+    return View();
+}
+```
+
+Om meer dan alleen strings in de `Session` op te kunnen slaan, moet je de `Session` serialiseren. Dit kan je doen door de `System.Text.Json` package te installeren. En vervolgens kan je de `Session` serialiseren en deserialiseren met de `System.Text.Json` package. Een voorbeeld hiervan zijn de extension methods die in de [`SessionExtensions.cs`](TestVoorToets/Utils/SessionExtensions.cs) file staan. Deze extension methods kan je generiek gebruiken voor alle objecten. 
+
+De extension methods zijn beschikbaar in het `HttpContext.Session` object. Hier is een voorbeeld van hoe je de extension methods kan gebruiken:
+
+```csharp
+public IActionResult Index()
+{
+    // Haal de waarde op van de key "test"
+    var test = HttpContext.Session.Get<Test>("test");
+
+    // Zet de waarde van de key "test" op een nieuwe Test object
+    HttpContext.Session.Set("test", new Test());
+
+    return View();
+}
+
+```
+
+ > De credit voor de extension methods gaat naar [John Brouwers](https://github.com/JohnBrouwers) in zijn [Cijfer Registratie](https://github.com/JohnBrouwers/CijferRegistratie/blob/master/CijferRegistratie/Tools/ExtensionMethods.cs) project.
+ > 
+ > Hier is ook een voorbeeld van hoe je de extension methods kan gebruiken: [Cijfer Registratie](https://github.com/JohnBrouwers/CijferRegistratie/blob/a05939e667c2770574974463101d2519384313c5/CijferRegistratie/Controllers/HomeController.cs#L25)
