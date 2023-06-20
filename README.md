@@ -11,6 +11,7 @@ In dit project  ga je Entity Framework toevoegen aan je MVC app. Entity Framewor
 5. [Connectie met de database leggen](#5-connectie-met-de-database-leggen)
 6. [Database migreren](#6-database-migreren)
 7. [Session state bijhouden](#7-session-state-bijhouden)
+8. [Testen doormiddel van mocking](#8-testen-door-middel-van-mocking)
 
 
 # 2. Stappen
@@ -293,9 +294,76 @@ public IActionResult Index()
 
     return View();
 }
-
 ```
 
  > De credit voor de extension methods gaat naar [John Brouwers](https://github.com/JohnBrouwers) in zijn [Cijfer Registratie](https://github.com/JohnBrouwers/CijferRegistratie/blob/master/CijferRegistratie/Tools/ExtensionMethods.cs) project.
  > 
  > Hier is ook een voorbeeld van hoe je de extension methods kan gebruiken: [Cijfer Registratie](https://github.com/JohnBrouwers/CijferRegistratie/blob/a05939e667c2770574974463101d2519384313c5/CijferRegistratie/Controllers/HomeController.cs#L25)
+
+# 8. Testen door middel van mocking met Moq
+
+Soms wil je een deel van je applicatie testen. Bijvoorbeeld een user interface of een controller. Maar je wilt niet dat je testen afhankelijk zijn van andere delen van je applicatie. Bijvoorbeeld een database of een API. Dit kan je oplossen door middel van mocking. Hier is een voorbeeld van hoe je de volgende interface kan mocken:
+
+```csharp
+public interface IUserRepository
+{
+    User GetUser(string name);
+}
+```
+
+Om de interface te mocken, moet je de `Moq` package installeren. Vervolgens kan je de interface mocken met de `Mock` class.
+
+> Met "het mocken van een interface" wordt bedoeld dat je een nep implementatie maakt van de interface. In het voorbeeld van de UserRepository interface, maak je een nep implementatie van de GetUser method. Deze nep implementatie kan je gebruiken in je testen. Bijvoorbeeld als je een controller wilt testen die de GetUser method gebruikt.
+
+Om te beginnen moet je een `Mock` object maken van de interface. Dit kan je doen door de `Mock` class te gebruiken. Hier is een voorbeeld van hoe je een `Mock` object kan maken van de `IUserRepository` interface met een `GetUser` method:
+
+> Om ervoor te zorgen dat je in elke test dezelfde `Mock` objecten gebruikt, kan je de `Mock` objecten in de constructor van de xUnit test. Deze `Mock` objecten kan je vervolgens gebruiken in je testen. Hieronder is een voorbeeld van hoe je de `Mock` objecten in de constructor kan maken:
+
+```csharp
+private Mock<IUserRepository> _userRepositoryMock;
+
+public MockingUserTest()
+{
+    _userRepositoryMock = new Mock<IUserRepository>();
+    
+    // Als de GetUser method aangeroepen wordt met de parameter "John Doe", dan return een nieuwe User object
+    // Als de GetUser method aangeroepen wordt met een andere parameter dan "John Doe", dan return null
+    // Dit kan je doen door de Setup method te gebruiken het mock object
+    // In de Setup method geef je aan welke method je wilt mocken en wat de input en output is van de method
+    // In dit geval is de input een string en de output een User object
+    // In de Returns method geef je aan wat de output is van de method en dat is in dit geval de implementatie van de method
+    _userRepositoryMock.Setup(repo => repo.GetUser(It.IsAny<string>()))
+        .Returns((string user) =>
+        {
+            // Als de user niet "John Doe" is, dan return null
+            if (user != "John Doe")
+                return null;
+            
+            // Als de user "John Doe" is, dan return een nieuwe User object
+            return new User() { Age = 18, Name = "John Doe" };
+        }
+    );
+}
+```
+
+Vervolgens kan je de `Mock` objecten gebruiken in je testen. Hier is een voorbeeld van hoe je de `Mock` objecten kan gebruiken in een test:
+
+>Om bij de `GetUser` method te komen van de ingestelde `Mock` objecten, moet je de `Object` property gebruiken van het `Mock` object. Hier is een voorbeeld van hoe je de `Object` property kan gebruiken:
+
+```csharp
+[Fact]
+public void GetUser_ShouldReturnUser()
+{
+    // Arrange
+    UserService userService = new UserService(mockUserRepository.Object);
+    string name = "John Doe";
+
+    // Act
+    var result = userService.GetUser(name);
+
+    // Assert
+    Assert.Equal(name, result.Name);
+}
+```
+
+>De gehele test kan je vinden in de [`MockingUserTest.cs`](xUnitTestVoorToets/MockingUserTest.cs) file.
