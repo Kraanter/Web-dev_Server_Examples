@@ -4,6 +4,8 @@ using TestVoorToets.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddHttpClient();
+
 var connectionString = builder.Configuration.GetConnectionString("BlogDatabase");
 builder.Services.AddDbContext<BlogDbContext>(options =>
     options.UseSqlite(connectionString));

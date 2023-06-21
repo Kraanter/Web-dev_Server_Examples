@@ -367,3 +367,59 @@ public void GetUser_ShouldReturnUser()
 ```
 
 >De gehele test kan je vinden in de [`MockingUserTest.cs`](xUnitTestVoorToets/MockingUserTest.cs) file.
+
+# 9. Losse API aanspreken met HttpClient
+
+Soms wil je een losse API aanspreken. Bijvoorbeeld een API die je zelf hebt gemaakt of een API van een andere partij. Dit kan je doen door middel van de `HttpClient` class. 
+
+Om gebruik te maken van de `HttpClient` class moet je het volgende toevoegen aan de bovenkant van je `Program.cs` file:
+
+```csharp
+builder.Services.AddHttpClient();
+```
+
+>Dit zorgt ervoor dat je de `HttpClient` class kan gebruiken in je applicatie. En hem kan injecteren in je controllers.
+
+Vervolgens kan je in de constructor van je controller de `HttpClient` class injecteren. Hier is een voorbeeld van hoe je de `HttpClient` class kan injecteren in je controller:
+
+```csharp
+private readonly HttpClient _httpClient;
+
+public ExternalController(HttpClient httpClient)
+{
+    _httpClient = httpClient;
+}
+```
+
+Nu kan je de `HttpClient` class gebruiken in je controller. Hier is een voorbeeld van hoe je de `HttpClient` class kan gebruiken in je controller:
+
+>In het voorbeeld wordt er een API aangeroepen die een lijst van `WeatherForecast` objecten teruggeeft. Dit is een standaard object die je krijgt als je een nieuwe ASP.NET Core Web API project aanmaakt. Deze API kan je starten in het APITestVoorToets project.
+
+```csharp
+public async Task<IActionResult> Index()
+{
+    // Je kunt ook een Model aanmaken en deze vullen met de data die je terugkrijgt van de API:
+    var model = new ExternalModel();
+
+    try
+    {
+        var response = _httpClient.GetAsync("http://localhost:5229/WeatherForecast").Result;
+
+        model.Status = response.StatusCode.ToString();
+        model.Payload = response.Content.ReadAsStringAsync().Result;
+        
+        // Dit is een andere manier om de data uit de response te halen als je een Model hebt die overeenkomt met de data die je terugkrijgt:
+        // Let op dat het terug gegeven object ook nullable is, dus je moet er rekening mee houden dat het null kan zijn.
+        IEnumerable<WeatherForecast>? data = await response.Content.ReadFromJsonAsync<IEnumerable<WeatherForecast>>();
+    }
+    catch (Exception e)
+    {
+        model.Status = "Error";
+        model.Payload = e.Message;
+    }
+   
+    return View(model);
+}
+```
+
+Dit uitgebreide voorbeeld kan je vinden in de [`HomeController.cs`](TestVoorToets/Controllers/ExternalController.cs) file.
